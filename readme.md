@@ -37,3 +37,10 @@ Extract 500 cat images and store them in ./data/images.db:
 python -m main_script --n_images 500 --db_path ./data/images.db --search_term cats
 
 ```
+
+### Unit tests
+
+There are two unit tests in the repository, to execute these tests, you can use the following commands:
+```bash
+python -m image_insertion_test.py
+```
