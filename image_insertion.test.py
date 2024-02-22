@@ -15,7 +15,7 @@ class TestImageURLInsertion(unittest.TestCase):
         insert_image_url('./db/mock_db', 'https://freeimages.com/dogs/a_little_dog')
 
         # Assert the cursor executed the expected SQL command
-        mock_cursor.execute.assert_any_call("CREATE TABLE IF NOT EXISTS images (id TEXT PRIMARY KEY, url TEXT UNIQUE, createdAt TIMESTAMP)")
+        mock_cursor.execute.assert_any_call("CREATE TABLE IF NOT EXISTS images (id INTEGER PRIMARY KEY AUTOINCREMENT, url TEXT UNIQUE, createdAt TIMESTAMP)")
         
         self.assertTrue(mock_cursor.execute.called)
         self.assertTrue(mock_conn.commit.called)
@@ -50,10 +50,10 @@ class TestImageURLInsertion(unittest.TestCase):
 
         # Expected calls sequence
         expected_calls = [
-            call("CREATE TABLE IF NOT EXISTS images (id TEXT PRIMARY KEY, url TEXT UNIQUE, createdAt TIMESTAMP)"),
-            call("INSERT OR IGNORE INTO images (id, url, createdAt) VALUES (?, ?, ?)", (ANY, ANY, ANY)),
-            call("CREATE TABLE IF NOT EXISTS images (id TEXT PRIMARY KEY, url TEXT UNIQUE, createdAt TIMESTAMP)"),
-            call("INSERT OR IGNORE INTO images (id, url, createdAt) VALUES (?, ?, ?)", (ANY, ANY, ANY))
+            call("CREATE TABLE IF NOT EXISTS images (id INTEGER PRIMARY KEY AUTOINCREMENT, url TEXT UNIQUE, createdAt TIMESTAMP)"),
+            call("INSERT OR IGNORE INTO images (url, createdAt) VALUES (?, ?)", (ANY, ANY)),
+            call("CREATE TABLE IF NOT EXISTS images (id INTEGER PRIMARY KEY AUTOINCREMENT, url TEXT UNIQUE, createdAt TIMESTAMP)"),
+            call("INSERT OR IGNORE INTO images (url, createdAt) VALUES (?, ?)", (ANY, ANY))
         ]
         
         # Verify that all expected calls were made in order
@@ -69,4 +69,3 @@ class TestImageURLInsertion(unittest.TestCase):
 
 if __name__ == '__main__':
     unittest.main()
-# %%

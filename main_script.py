@@ -1,8 +1,5 @@
 
 import argparse
-import sqlite3
-from datetime import datetime
-import uuid
 from selenium import webdriver
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
@@ -65,7 +62,6 @@ if __name__ == "__main__":
                     url = photo_element.find_element(By.TAG_NAME, "a").get_attribute("href")
                     if url not in urls:  # Check to avoid duplicates
                         urls.append(url)
-                        unique_id = str(uuid.uuid4())  # Generate a unique UUID
                         insert_image_url(db_path=db_path, url=url)
 
 
